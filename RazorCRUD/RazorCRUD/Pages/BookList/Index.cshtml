@@ -1,0 +1,77 @@
+﻿@page
+@model RazorCRUD.Pages.BookList.IndexModel
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h2 class="text-primary">Book List</h2>
+        </div>
+        <div class="col-md-3">
+            @*<a asp-page="Create" class="btn btn-primary form-control text-white">Add Book</a>*@
+            @* For Upsert *@
+            <a asp-page="Upsert" class="btn btn-primary form-control text-white">Add Book</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 border mt-3 p-3">
+            <form method="post">
+                @if (Model.Books.Count() > 0)
+                {
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th><label asp-for="Books.FirstOrDefault().Name"></label></th>
+                                <th><label asp-for="Books.FirstOrDefault().Author"></label></th>
+                                <th>ISBN</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var book in Model.Books)
+                            {
+                                <tr>
+                                    <td>@book.Name</td>
+                                    <td>@book.Author</td>
+                                    <td>@book.ISBN</td>
+                                    <td>
+                                        <button asp-route-id="@book.Id" asp-page-handler="Delete" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                        <a asp-page="Edit" asp-route-id="@book.Id" class="btn btn-success btn-sm text-white">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-primary" role="alert">
+                        <p><strong>No books are available!!!</strong></p>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center py-5">
+    <h3 class="text-info">OR</h3>
+</div>
+
+<div class="container">
+    <table id="DT_LOAD" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/booklist.js"></script>
+}
